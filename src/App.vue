@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Slide noOverlay>
+      <router-link to="/"><span>Home</span></router-link>
+      <router-link to="/artikelen/gekeurd"><span>Gekeurde artikelen</span></router-link>
+      <router-link to="/artikelen/ongekeurd"><span>Ongekeurde artikelen</span></router-link>
+      <router-link to="/artikelen/verlopen"><span>Verlopen artikelen</span></router-link>
+    </Slide>
+    <router-view class="view"></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { Slide } from 'vue-burger-menu'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+     Slide
   }
 }
 </script>
@@ -23,6 +27,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
+.bm-burger-button {
+  top: 0;
+}
+
 </style>

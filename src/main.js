@@ -3,8 +3,9 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.css'
+// import VueMaterial from 'vue-material'
+// import 'vue-material/dist/vue-material.css'
+// import 'vue-material/dist/theme/default-dark.css'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -29,15 +30,17 @@ Vue.use(new VueSocketIO({
     // }
 }))
 
-Vue.use(VueMaterial)
+// Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 import List from './components/List.vue'
 import Logs from './components/Logs.vue'
-Vue.component('List', List);
-Vue.component('Logs', Logs);
+import Settings from './components/Settings.vue'
+Vue.component('List', List)
+Vue.component('Logs', Logs)
+Vue.component('Settings', Settings)
 
 const Home            = { template: '<Logs title="Logs" endpoint="/logs" id="log-list"/>' }
 const StockApproved   = { template: '<List title="Gekeurde artikelen" endpoint="/stock/approved" limit="5000" id="stock-approved"/>' }
@@ -46,6 +49,7 @@ const StockExpired    = { template: '<List title="Verlopen artikelen" endpoint="
 
 const routes = [
   { path: '/', component: Home },
+  { path: '/settings', component: { template: '<Settings title="Instellingen"/>' } },
   { path: '/artikelen/gekeurd', component: StockApproved },
   { path: '/artikelen/ongekeurd', component: StockUnapproved },
   { path: '/artikelen/verlopen', component: StockExpired }

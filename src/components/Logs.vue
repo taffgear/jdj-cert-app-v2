@@ -39,8 +39,9 @@
 
      <b-row>&nbsp;</b-row>
 
-      <b-table striped hover
+      <b-table id="logs-list" striped hover
         stacked="md"
+        ref="stock"
        :items="items"
        :fields="fields"
        :current-page="currentPage"
@@ -72,7 +73,8 @@ export default {
   mixins: [saveState],
   props: {
     title: String,
-    endpoint: String
+    endpoint: String,
+    id: String
   },
   data: () => ({
     items: [],
@@ -85,8 +87,8 @@ export default {
     totalRows: 0,
     pageOptions: [ 10, 15, 25, 50, 100, 200, 500 ],
     sortBy: null,
-    sortDesc: false,
-    sortDirection: 'asc',
+    sortDesc: true,
+    sortDirection: 'desc',
     filter: null,
     loading: true,
     errored: false
@@ -119,10 +121,15 @@ export default {
     },
     getSaveStateConfig() {
         return {
-            'cacheKey': 'stock-' + this.$props.type,
-            'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'perPage', 'totalRows'],
+            'cacheKey': 'stock-' + this.$props.id,
+            'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'sortDesc', 'perPage', 'totalRows'],
         };
     },
+  },
+  created () {
+    this.sockets.subscribe('log', (data) => {
+      this.items.push(data)
+    })
   }
 }
 </script>

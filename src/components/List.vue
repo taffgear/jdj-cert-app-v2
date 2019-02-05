@@ -67,24 +67,26 @@
 import axios from 'axios'
 import saveState from 'vue-save-state'
 import config from '../../config'
+import { findKey } from 'lodash'
 export default {
   name: 'StockList',
   mixins: [saveState],
   props: {
     title: String,
     endpoint: String,
-    limit: ''
+    limit: '',
+    id: String
   },
   data: () => ({
     items: [],
     fields: [
       { key: 'PGROUP', label: 'Grp', sortable: true, class: 'text-left' },
       { key: 'GRPCODE', label: 'Grp code', sortable: true, class: 'text-left' },
-      { key: 'ITEMNO', label: 'SKU', sortable: true, sortDirection: 'asc', class: 'text-left' },
+      { key: 'ITEMNO', label: 'SKU', sortable: true, class: 'text-left' },
       { key: 'DESC#1', label: 'Omschr. 1', sortable: true, class: 'text-left' },
       { key: 'DESC#2', label: 'Omschr. 2', sortable: true, class: 'text-left' },
       { key: 'DESC#3', label: 'Omschr. 3', sortable: true, class: 'text-left' },
-      { key: 'LASTSER#3', label: 'Keuring', sortable: true, class: 'text-left' },
+      { key: 'LASTSER#3', label: 'Keuring', sortable: true, sortDirection: 'desc', class: 'text-left' },
       { key: 'PERIOD#1', label: 'Geldig', sortable: true, class: 'text-left' },
       { key: 'CURRDEPOT', label: 'Mag', sortable: true, class: 'text-left' }
     ],
@@ -93,8 +95,8 @@ export default {
     totalRows: 0,
     pageOptions: [ 10, 15, 25, 50, 100, 200, 500 ],
     sortBy: null,
-    sortDesc: false,
-    sortDirection: 'asc',
+    sortDesc: true,
+    sortDirection: 'desc',
     filter: null,
     loading: true,
     errored: false
@@ -127,10 +129,20 @@ export default {
     },
     getSaveStateConfig() {
         return {
-            'cacheKey': 'stock-' + this.$props.type,
-            'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'perPage', 'totalRows'],
+            'cacheKey': 'stock-' + this.$props.id,
+            'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'sortDesc', 'perPage', 'totalRows'],
         };
     },
+  },
+  created () {
+    this.sockets.subscribe('stockItem', (data) => {
+      if (this.$props.id === 'stock-approved') {
+        this.items.push(data)
+      } else {
+        const k = findKey(this.items, { ITEMNO: data.ITEMNO })
+        if (k) this.items.splice(k, 1)
+      }
+    })
   }
 }
 </script>

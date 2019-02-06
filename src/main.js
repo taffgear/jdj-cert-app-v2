@@ -1,38 +1,43 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import Vuex from 'vuex'
-
-// import VueMaterial from 'vue-material'
-// import 'vue-material/dist/vue-material.css'
-// import 'vue-material/dist/theme/default-dark.css'
+import Notifications from 'vue-notification'
+import VueProgressBar from 'vue-progressbar'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'typeface-roboto/index.css'
 
 import VueSocketIO from 'vue-socket.io'
 import moment from 'moment'
 
-// import store from './store/index.js'
 import config from '../config'
 import './assets/global.css'
+import axios from './api-axios'
 
 Vue.prototype.moment = moment
+Vue.prototype.$api = axios
 
 Vue.use(new VueSocketIO({
     debug: false,
-    connection: config.webhook_worker.uri,
-    // vuex: {
-    //     store,
-    //     actionPrefix: 'SOCKET_',
-    //     mutationPrefix: 'SOCKET_'
-    // }
+    connection: config.webhook_worker.uri
 }))
 
-// Vue.use(VueMaterial)
+const options = {
+  thickness: '3px',
+  transition: {
+    speed: '0.5s',
+    opacity: '0.7s',
+    termination: 300
+  }
+}
+
+Vue.use(VueProgressBar, options)
+
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
+Vue.use(Notifications)
 Vue.config.productionTip = false
 
 import List from './components/List.vue'
@@ -61,7 +66,7 @@ const router = new VueRouter({
   routes // short for `routes: routes`
 })
 
-new Vue({
+export default new Vue({
   render: h => h(App),
   router,
   // store

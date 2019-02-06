@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-      <b-navbar toggleable="md" type="light" variant="dark">
+      <notifications group="api" position="top center"/>
+      <b-navbar toggleable="md" variant="dark">
 
           <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -9,17 +10,18 @@
           <b-collapse is-nav id="nav_collapse">
 
             <b-navbar-nav>
-                <b-nav-item href="#"><router-link to="/">Home</router-link></b-nav-item>
-                <b-nav-item href="#"><router-link to="/settings"><span>Instellingen</span></router-link></b-nav-item>
-                <b-nav-item href="#"><router-link to="/artikelen/gekeurd"><span>Gekeurde artikelen</span></router-link></b-nav-item>
-                <b-nav-item href="#"><router-link to="/artikelen/ongekeurd"><span>Ongekeurde artikelen</span></router-link></b-nav-item>
-                <b-nav-item href="#"><router-link to="/artikelen/verlopen"><span>Verlopen artikelen</span></router-link></b-nav-item>
+                <b-nav-item to="/" exact>Home</b-nav-item>
+                <b-nav-item to="/settings">Instellingen</b-nav-item>
+                <b-nav-item to="/artikelen/gekeurd">Gekeurde artikelen</b-nav-item>
+                <b-nav-item to="/artikelen/ongekeurd">Ongekeurde artikelen</b-nav-item>
+                <b-nav-item to="/artikelen/verlopen"></b-nav-item>
             </b-navbar-nav>
 
           </b-collapse>
         </b-navbar>
 
     <router-view class="view"></router-view>
+    <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
 
@@ -31,8 +33,11 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.view {
+    margin-top: 20px;
 }
 </style>

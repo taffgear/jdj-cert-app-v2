@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import saveState from 'vue-save-state'
 import config from '../../config'
 export default {
@@ -94,7 +93,7 @@ export default {
     errored: false
   }),
   mounted () {
-    axios
+    this.$api
      .get(config.api.uri + this.$props.endpoint, { auth: config.api.auth })
      .then(response => (this.items = response.data.body))
      .catch(() => {

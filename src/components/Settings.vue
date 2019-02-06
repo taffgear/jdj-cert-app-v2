@@ -1,51 +1,63 @@
 <template>
-  <div>
-    <b-container fluid>
+    <div>
+        <b-container fluid>
 
-      <h1>{{ title }}</h1>
-      <b-row>
-        <b-col md="6">
+            <h1>{{ title }}</h1>
+            <b-row>
+                <b-col xs="12" sm="6" md="3">
+                    <b-form-group>
+                        <label for="fixed-date">Datum vooor certificaten</label>
+                        <b-form-input id="fixed-date" v-model="fixed_date" type="date" placeholder="Datum voor certificaten"></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col xs="12" sm="6" md="3">
+                    <b-form-group>
+                        <label for="watch-dir">Map locatie voor certificaten</label>
+                        <b-form-input id="watch-dir" v-model="watch_dir" type="text" placeholder="Map locatie voor certificaten"></b-form-input>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col xs="12">
+                    <h2>Aanvinken om artikelen te selecteren.</h2>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col xs="12" md="4">
+                    <h3>Gekeurde artikelen</h3>
 
-        <b-form-group>
-          <label for="fixed-date">Datum vooor certificaten</label>
-          <b-form-input id="fixed-date" v-model="fixed_date" type="date" placeholder="Datum voor certificaten"></b-form-input>
-        </b-form-group>
+                    <b-form-group v-for="(label, k) in labels" :key="'approved-' + k">
+                        <b-form-checkbox :value="'status_' + k" v-model="approvedChecked">{{ label }}</b-form-checkbox>
+                    </b-form-group>
+                </b-col>
+                <b-col xs="12" md="4">
+                    <h3>Ongekeurde artikelen</h3>
 
-        <b-form-group>
-          <label for="watch-dir">Map locatie voor certificaten</label>
-          <b-form-input id="watch-dir" v-model="watch_dir" type="text" placeholder="Map locatie voor certificaten"></b-form-input>
-        </b-form-group>
+                    <b-form-group v-for="(label, k) in labels" :key="'approved-' + k">
+                        <b-form-checkbox :value="'status_' + k" v-model="unapprovedChecked">{{ label }}</b-form-checkbox>
+                    </b-form-group>
+                </b-col>
 
-        <h2>Aanvinken om artikelen te selecteren.</h2>
+                <b-col xs="12" md="4">
+                    <h3>Verlopen artikelen</h3>
 
-        <h3>Gekeurde artikelen</h3>
-        <b-form-group>
-            <b-form-checkbox v-for="(label, k) in labels" :value="'status_' + k" v-model="approvedChecked">{{ label }}</b-form-checkbox>
-        </b-form-group>
+                    <b-form-group v-for="(label, k) in labels" :key="'approved-' + k">
+                        <b-form-checkbox :value="'status_' + k" v-model="expiredChecked">{{ label }}</b-form-checkbox>
+                    </b-form-group>
+                </b-col>
 
-       <h3>Ongekeurde artikelen</h3>
-       <b-form-group>
-           <b-form-checkbox v-for="(label, k) in labels" :value="'status_' + k" v-model="unapprovedChecked">{{ label }}</b-form-checkbox>
-       </b-form-group>
-
-       <h3>Verlopen artikelen</h3>
-       <b-form-group>
-           <b-form-checkbox v-for="(label, k) in labels" :value="'status_' + k" v-model="expiredChecked">{{ label }}</b-form-checkbox>
-       </b-form-group>
-
-        <div>
-            <b-button class="success" v-on:click="updateSettings">Opslaan</b-button>
-        </div>
-        </b-col>
-        </b-row>
-     </b-container>
-  </div>
+                <b-col xs="12">
+                    <div class="mb-2">&nbsp;</div>
+                    <b-button variant="primary" v-on:click="updateSettings">Opslaan</b-button>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
 </template>
 
 <script>
-import axios from 'axios'
 import config from '../../config'
-import { reduce, each, map } from 'lodash'
+import { each, map } from 'lodash'
 
 const defaults = {
     status_0: { value: false, label: 'Beschikbaar' },
@@ -81,7 +93,7 @@ export default {
     sending: false
   }),
   mounted () {
-    axios
+    this.$api
      .get(config.api.uri + '/settings', { auth: config.api.auth })
      .then(response => {
        const settings = response.data.body
@@ -94,6 +106,12 @@ export default {
      })
      .catch(() => {
        this.errored = true
+       this.$notify({
+           group: 'api',
+           title: 'Instellingen',
+           text: 'Helaas! Het is niet gelukt om de instellingen op te halen.',
+           type: 'error'
+       });
      })
      .finally(() => {
        this.loading = false
@@ -118,12 +136,27 @@ export default {
             each (this.unapproved, (item, k) => { settings.unapproved[k] = { value: this.unapprovedChecked.indexOf(k) !== -1, label: item.label } })
             each (this.expired, (item, k) => { settings.expired[k] = { value: this.expiredChecked.indexOf(k) !== -1, label: item.label } })
 
-          axios
+          this.$api
             .put(config.api.uri + '/settings', settings, { auth: config.api.auth })
               .then(() => {
                   this.$socket.emit('settings', settings)
                   this.sending = false;
-              });
+
+                  this.$notify({
+                      group: 'api',
+                      title: 'Instellingen',
+                      text: 'De gekozen instellingen zijn opgeslagen!',
+                      type: 'success'
+                  });
+              })
+              .catch(() => {
+                  this.$notify({
+                      group: 'api',
+                      title: 'Instellingen',
+                      text: 'Helaas! Er is iets misgegaan tijdens het opslaan van de instellingen.',
+                      type: 'error'
+                  });
+              })
       }
     }
 }

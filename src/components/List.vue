@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import saveState from 'vue-save-state'
 import config from '../../config'
 import { findKey } from 'lodash'
@@ -74,7 +73,7 @@ export default {
   props: {
     title: String,
     endpoint: String,
-    limit: '',
+    limit: String,
     id: String
   },
   data: () => ({
@@ -102,11 +101,17 @@ export default {
     errored: false
   }),
   mounted () {
-    axios
+    this.$api
      .get(config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''), { auth: config.api.auth })
      .then(response => (this.items = response.data.body))
      .catch(() => {
        this.errored = true
+       this.$notify({
+           group: 'api',
+           title: this.$props.title,
+           text: 'Helaas! Het is niet gelukt om de artikelen op te halen.',
+           type: 'error'
+       });
      })
      .finally(() => {
        this.loading = false

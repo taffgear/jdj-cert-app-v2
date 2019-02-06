@@ -18,6 +18,7 @@ import axios from './api-axios'
 
 Vue.prototype.moment = moment
 Vue.prototype.$api = axios
+Vue.prototype.$config = config
 
 Vue.use(new VueSocketIO({
     debug: false,
@@ -43,18 +44,22 @@ Vue.config.productionTip = false
 import List from './components/List.vue'
 import Logs from './components/Logs.vue'
 import Settings from './components/Settings.vue'
+import Uploader from './components/Uploader.vue'
 Vue.component('List', List)
 Vue.component('Logs', Logs)
 Vue.component('Settings', Settings)
+Vue.component('Uploader', Uploader)
 
 const Home            = { template: '<Logs title="Logs" endpoint="/logs" id="log-list"/>' }
 const StockApproved   = { template: '<List title="Gekeurde artikelen" endpoint="/stock/approved" limit="5000" id="stock-approved"/>' }
 const StockUnapproved = { template: '<List title="Ongekeurde artikelen" endpoint="/stock/unapproved" limit="5000" id="stock-unapproved"/>' }
 const StockExpired    = { template: '<List title="Verlopen artikelen" endpoint="/stock/expired" limit="5000" id="stock-expired"/>' }
+const Certificaten    = { template: '<Uploader title="Certificaten uploaden"/>' }
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/settings', component: { template: '<Settings title="Instellingen"/>' } },
+  { path: '/instellingen', component: { template: '<Settings title="Instellingen"/>' } },
+  { path: '/certificaten', component: Certificaten },
   { path: '/artikelen/gekeurd', component: StockApproved },
   { path: '/artikelen/ongekeurd', component: StockUnapproved },
   { path: '/artikelen/verlopen', component: StockExpired }

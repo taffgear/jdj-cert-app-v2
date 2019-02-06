@@ -65,7 +65,6 @@
 
 <script>
 import saveState from 'vue-save-state'
-import config from '../../config'
 import { findKey } from 'lodash'
 export default {
   name: 'StockList',
@@ -102,7 +101,7 @@ export default {
   }),
   mounted () {
     this.$api
-     .get(config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''), { auth: config.api.auth })
+     .get(this.$config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''), { auth: this.$config.api.auth })
      .then(response => (this.items = response.data.body))
      .catch(() => {
        this.errored = true

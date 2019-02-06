@@ -11,10 +11,11 @@
 
             <b-navbar-nav>
                 <b-nav-item to="/" exact>Home</b-nav-item>
-                <b-nav-item to="/settings">Instellingen</b-nav-item>
+                <b-nav-item to="/instellingen">Instellingen</b-nav-item>
+                <b-nav-item to="/certificaten">Certificaten</b-nav-item>
                 <b-nav-item to="/artikelen/gekeurd">Gekeurde artikelen</b-nav-item>
                 <b-nav-item to="/artikelen/ongekeurd">Ongekeurde artikelen</b-nav-item>
-                <b-nav-item to="/artikelen/verlopen"></b-nav-item>
+                <b-nav-item to="/artikelen/verlopen">Verlopen artikelen</b-nav-item>
             </b-navbar-nav>
 
           </b-collapse>

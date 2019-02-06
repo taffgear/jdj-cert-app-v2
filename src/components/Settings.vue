@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import config from '../../config'
 import { each, map } from 'lodash'
 
 const defaults = {
@@ -94,7 +93,7 @@ export default {
   }),
   mounted () {
     this.$api
-     .get(config.api.uri + '/settings', { auth: config.api.auth })
+     .get(this.$config.api.uri + '/settings', { auth: this.$config.api.auth })
      .then(response => {
        const settings = response.data.body
 
@@ -137,7 +136,7 @@ export default {
             each (this.expired, (item, k) => { settings.expired[k] = { value: this.expiredChecked.indexOf(k) !== -1, label: item.label } })
 
           this.$api
-            .put(config.api.uri + '/settings', settings, { auth: config.api.auth })
+            .put(this.$config.api.uri + '/settings', settings, { auth: this.$config.api.auth })
               .then(() => {
                   this.$socket.emit('settings', settings)
                   this.sending = false;

@@ -66,7 +66,6 @@
 
 <script>
 import saveState from 'vue-save-state'
-import config from '../../config'
 export default {
   name: 'StockList',
   mixins: [saveState],
@@ -94,7 +93,7 @@ export default {
   }),
   mounted () {
     this.$api
-     .get(config.api.uri + this.$props.endpoint, { auth: config.api.auth })
+     .get(this.$config.api.uri + this.$props.endpoint, { auth: this.$config.api.auth })
      .then(response => (this.items = response.data.body))
      .catch(() => {
        this.errored = true

@@ -59,9 +59,6 @@ export default {
                 this.files.push(file);
                 if (this.files.length === this.queued) { this.upload(); }
             };
-            reader.onabort = () => console.log('file reading was aborted');
-            reader.onerror = () => console.log('file reading has failed');
-
             reader.readAsDataURL(file);
         },
         upload: function() {
@@ -71,7 +68,6 @@ export default {
 
             this.$api.post(this.$config.api.uri + '/files', formData, { auth: this.$config.api.auth })
                 .then(() => {
-                    console.log('done')
                     this.$refs.myVueDropzone.removeAllFiles()
                     this.$notify({
                         group: 'api',

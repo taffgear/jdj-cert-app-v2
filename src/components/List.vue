@@ -7,7 +7,7 @@
 
       <!-- User Interface controls -->
      <b-row>
-       <b-col md="4" class="my-1">
+       <b-col md="3" class="my-1">
          <b-form-group horizontal label="Filteren" class="mb-0">
            <b-input-group>
              <b-form-input v-model="filter" placeholder="Typen om te zoeken" />
@@ -17,7 +17,7 @@
            </b-input-group>
          </b-form-group>
        </b-col>
-       <b-col md="4" class="my-1">
+       <b-col md="3" class="my-1">
          <b-form-group horizontal label="Sorteren" class="mb-0">
            <b-input-group>
              <b-form-select v-model="sortBy" :options="sortOptions">
@@ -34,6 +34,9 @@
          <b-form-group horizontal label="Per pagina" class="mb-0">
            <b-form-select :options="pageOptions" v-model="perPage" />
          </b-form-group>
+       </b-col>
+       <b-col md="2">
+           <b-button variant="primary" v-show="items.length" v-on:click="download">Exporteer als CSV</b-button>
        </b-col>
      </b-row>
 
@@ -66,6 +69,7 @@
 <script>
 import saveState from 'vue-save-state'
 import { findKey } from 'lodash'
+import Papa from 'papaparse'
 export default {
   name: 'StockList',
   mixins: [saveState],
@@ -137,6 +141,17 @@ export default {
             'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'sortDesc', 'perPage', 'totalRows'],
         };
     },
+    download() {
+        const csv = Papa.unparse(this.items);
+
+        const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const csvURL = window.URL.createObjectURL(csvData);
+        const tempLink = document.createElement('a');
+
+        tempLink.href = csvURL;
+        tempLink.setAttribute('download', this.$props.id + '.csv');
+        tempLink.click();
+    }
   },
   created () {
     this.sockets.subscribe('stockItem', (data) => {

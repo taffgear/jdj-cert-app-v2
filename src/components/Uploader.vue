@@ -19,7 +19,7 @@
                     <h3>Selecteer voor elke veldnaam hieronder een kolom naam uit het CSV bestand</h3>
                 </div>
                 <b-form inline>
-                    <b-form-group v-for="field in csv.fields" :id="'field-' + field.name" :label="field.label">
+                    <b-form-group v-for="field in csv.fields" :key="'field-' + field.name" :id="'field-' + field.name" :label="field.label">
                         <b-form-select :options="csv.headers" v-model="csv.selected[field.name]" class="mb-2 mr-sm-2 mb-sm-0"></b-form-select>
                     </b-form-group>
                 </b-form>
@@ -35,7 +35,7 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-import { find, findKey, reduce } from 'lodash'
+import { findKey, reduce } from 'lodash'
 import Papa from 'papaparse'
 
 export default {

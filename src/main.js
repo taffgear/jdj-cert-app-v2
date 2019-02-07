@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Notifications from 'vue-notification'
 import VueProgressBar from 'vue-progressbar'
+import Vuelidate from 'vuelidate'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -35,7 +36,7 @@ const options = {
 }
 
 Vue.use(VueProgressBar, options)
-
+Vue.use(Vuelidate)
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 Vue.use(Notifications)

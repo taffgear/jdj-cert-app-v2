@@ -131,7 +131,7 @@ export default {
 
             this.files.forEach(file => formData.append('documents', file))
 
-            this.$api.post(this.$config.api.uri + '/files', formData, { auth: this.$config.api.auth })
+            this.$api.post(this.$config.api.uri + '/files', formData)
                 .then(() => {
                     this.$refs.myVueDropzone.removeAllFiles()
                     this.files  = []
@@ -219,7 +219,7 @@ export default {
 
         formData.append('documents', blob, this.csv.fileName)
 
-        this.$api.post(this.$config.api.uri + '/files', formData, { auth: this.$config.api.auth })
+        this.$api.post(this.$config.api.uri + '/files', formData)
             .then(() => {
                 this.csv.file       = null
                 this.csv.mapped     = []

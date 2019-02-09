@@ -120,6 +120,7 @@ export default {
     },
     created () {
         this.$store.commit('user', JSON.parse(localStorage.getItem('user')))
+        this.$store.commit('jwt',  localStorage.getItem('jwt'))
 
         this.sockets.subscribe('email', (data) => {
             if (this.emailItems.length)

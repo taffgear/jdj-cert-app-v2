@@ -59,7 +59,7 @@
                     this.$api.post('http://localhost:5000/users/authenticate', {
                         username    : this.username,
                         password    : this.password
-                    }, { auth: this.$config.api.auth })
+                    })
                     .then(response => {
                         localStorage.setItem('user',JSON.stringify(response.data.user))
                         localStorage.setItem('jwt',response.data.token)
@@ -67,6 +67,7 @@
                         if (localStorage.getItem('jwt') != null) {
                             this.$emit('loggedIn')
                             this.$store.commit('user', response.data.user)
+                            this.$store.commit('jwt', response.data.token)
 
                             if (this.$route.params.nextUrl != null)
                                 this.$router.push(this.$route.params.nextUrl)

@@ -1,9 +1,13 @@
 import axios from 'axios';
 import app from './main'; // import the instance
+import store from './store'
 
 const instance = axios.create();
 
 instance.interceptors.request.use(config => {
+    if (store.state.jwt)
+        config.headers['Authorization'] = 'Bearer ' + store.state.jwt;
+
     app.$Progress.start(); // for every request start the progress
     return config;
 });

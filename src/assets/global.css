@@ -18,3 +18,10 @@ h2 {
 h3 {
     font-size: 1.2rem;
 }
+
+.nav-link {
+    color: #fff !important;
+}
+.nav-link.active {
+    color: #ff6600 !important;
+}

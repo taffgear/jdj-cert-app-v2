@@ -17,6 +17,7 @@ import config from '../config'
 import './assets/global.css'
 import axios from './api-axios'
 import router from './router'
+import store from './store'
 
 Vue.prototype.moment = moment
 Vue.prototype.$api = axios
@@ -45,4 +46,5 @@ Vue.config.productionTip = false
 export default new Vue({
   render: h => h(App),
   router,
+  store
 }).$mount('#app')

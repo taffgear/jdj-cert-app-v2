@@ -19,9 +19,9 @@
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right v-if="user">
+            <b-nav-item-dropdown right v-if="showUser">
                   <template slot="button-content">
-                    <em>{{ user.username }}</em>
+                    <em>{{ this.$store.state.user.username }}</em>
                   </template>
                   <b-dropdown-item href="#" @click="logout">Uitloggen</b-dropdown-item>
                 </b-nav-item-dropdown>
@@ -81,6 +81,11 @@ export default {
           }
       }
     },
+    computed: {
+        showUser () {
+            return !!this.$store.state.user
+        }
+    },
     validations: {
         email: {
             recipients: { required, recipientsValid },
@@ -92,6 +97,7 @@ export default {
         logout() {
             localStorage.removeItem('user')
             localStorage.removeItem('jwt')
+            this.$store.commit('user', null)
             this.$router.push('/login')
         },
         cancelEmail () {

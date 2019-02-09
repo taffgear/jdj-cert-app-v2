@@ -18,6 +18,15 @@
                 <b-nav-item to="/artikelen/verlopen">Verlopen artikelen</b-nav-item>
             </b-navbar-nav>
 
+            <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right v-if="user">
+                  <template slot="button-content">
+                    <em>{{ user.username }}</em>
+                  </template>
+                  <b-dropdown-item href="#" @click="logout">Uitloggen</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+
           </b-collapse>
         </b-navbar>
 
@@ -63,6 +72,7 @@ export default {
     name: 'app',
     data: function() {
       return {
+          user: JSON.parse(localStorage.getItem('user')),
           emailItems: [],
           email: {
               recipients    : '',
@@ -79,10 +89,15 @@ export default {
         }
     },
     methods: {
-      cancelEmail () {
-          this.$refs.emailModal.hide()
-      },
-      sendEmail () {
+        logout() {
+            localStorage.removeItem('user')
+            localStorage.removeItem('jwt')
+            this.$router.push('/login')
+        },
+        cancelEmail () {
+            this.$refs.emailModal.hide()
+        },
+        sendEmail () {
             this.$v.$touch()
 
             if (!this.$v.$invalid) {
@@ -90,13 +105,13 @@ export default {
                 this.$socket.emit('email', this.email)
                 this.emailItems = []
             }
-      },
-      status(validation) {
-        return {
-            error: validation.$error,
-            dirty: validation.$dirty
+        },
+        status(validation) {
+            return {
+                error: validation.$error,
+                dirty: validation.$dirty
+            }
         }
-      }
     },
     created () {
         this.sockets.subscribe('email', (data) => {

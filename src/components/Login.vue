@@ -63,6 +63,7 @@
 
                         if (localStorage.getItem('jwt') != null) {
                             this.$emit('loggedIn')
+                            this.$root.user = response.data.user
 
                             if (this.$route.params.nextUrl != null)
                                 this.$router.push(this.$route.params.nextUrl)

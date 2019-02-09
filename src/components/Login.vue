@@ -19,6 +19,7 @@
                 </b-row>
                 <b-row>
                     <b-col xs="12">
+                        <p v-show="errored" class="error">Inloggegevens onjuist</p>
                         <b-button type="submit" @click="handleSubmit" variant="primary">Inloggen</b-button>
                     </b-col>
                 </b-row>
@@ -32,6 +33,7 @@
     export default {
         data(){
             return {
+                errored     : false,
                 username    : "",
                 password    : ""
             }
@@ -49,6 +51,7 @@
             },
             handleSubmit(e){
                 e.preventDefault()
+                this.errored = false
 
                 this.$v.$touch()
 
@@ -71,7 +74,9 @@
                                 this.$router.push('/')
                         }
                     })
-                    .catch(() => {  });
+                    .catch(() => {
+                        this.errored = true
+                     });
                 }
             }
         }

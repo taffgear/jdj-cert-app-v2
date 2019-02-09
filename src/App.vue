@@ -72,7 +72,6 @@ export default {
     name: 'app',
     data: function() {
       return {
-          user: JSON.parse(localStorage.getItem('user')),
           emailItems: [],
           email: {
               recipients    : '',
@@ -120,6 +119,8 @@ export default {
         }
     },
     created () {
+        this.$store.commit('user', JSON.parse(localStorage.getItem('user')))
+
         this.sockets.subscribe('email', (data) => {
             if (this.emailItems.length)
                 this.emailItems.concat(data)

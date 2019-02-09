@@ -10,7 +10,7 @@
           <b-collapse is-nav id="nav_collapse">
 
             <b-navbar-nav>
-                <b-nav-item to="/" exact>Home</b-nav-item>
+                <b-nav-item to="/" exact><b-badge v-show="logUpdates" variant="light">{{ logUpdates }}</b-badge> Home</b-nav-item>
                 <b-nav-item to="/instellingen">Instellingen</b-nav-item>
                 <b-nav-item to="/certificaten">Certificaten</b-nav-item>
                 <b-nav-item to="/artikelen/gekeurd">Gekeurde artikelen</b-nav-item>
@@ -83,6 +83,9 @@ export default {
     computed: {
         showUser () {
             return !!this.$store.state.user
+        },
+        logUpdates () {
+            return this.$store.state.logUpdates.counter
         }
     },
     validations: {

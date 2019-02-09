@@ -125,9 +125,15 @@ export default {
     },
   },
   created () {
+      this.$store.commit('resetLogUpdateCounter')
+      this.$store.commit('toggleLogUpdates', false)
+
     this.sockets.subscribe('log', (data) => {
       this.items.push(data)
     })
+  },
+  beforeDestroy() {
+      this.$store.commit('toggleLogUpdates', true)
   }
 }
 </script>

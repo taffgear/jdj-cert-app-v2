@@ -25,7 +25,12 @@ Vue.prototype.$config = config
 
 Vue.use(new VueSocketIO({
     debug: false,
-    connection: config.webhook_worker.uri
+    connection: config.webhook_worker.uri,
+    vuex: {
+        store,
+        actionPrefix: 'SOCKET_',
+        mutationPrefix: 'SOCKET_'
+    }
 }))
 
 const options = {

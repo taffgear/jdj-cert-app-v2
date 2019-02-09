@@ -114,14 +114,14 @@ export default {
         },
         uploadFiles: function() {
             this.$refs.myVueDropzone.getQueuedFiles().forEach(file => {
-                this.queued++
                 this.readFile(file)
             })
         },
         readFile(file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                this.files.push(file);
+                this.queued++
+
                 if (this.files.length === this.queued) { this.upload(); }
             };
             reader.readAsDataURL(file);
@@ -134,6 +134,8 @@ export default {
             this.$api.post(this.$config.api.uri + '/files', formData, { auth: this.$config.api.auth })
                 .then(() => {
                     this.$refs.myVueDropzone.removeAllFiles()
+                    this.files  = []
+                    this.queued = 0
                     this.$notify({
                         group: 'api',
                         title: 'Certificaten',

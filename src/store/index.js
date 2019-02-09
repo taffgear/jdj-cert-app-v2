@@ -10,7 +10,8 @@ export default new Vuex.Store({
     logUpdates: {
         enabled: true,
         counter: 0
-    }
+    },
+    emailItems: []
   },
   mutations: {
       user (state, user) {
@@ -25,9 +26,19 @@ export default new Vuex.Store({
       resetLogUpdateCounter(state) {
           state.logUpdates.counter = 0
       },
+      resetEmailItems(state) {
+          state.emailItems = []
+      },
       SOCKET_log (state) {
           if (state.logUpdates.enabled)
             state.logUpdates.counter++
+      },
+      SOCKET_email (state, data) {
+          if (state.emailItems.length)
+              state.emailItems = state.emailItems.concat(data)
+          else {
+              state.emailItems = data
+          }
       }
   }
 })

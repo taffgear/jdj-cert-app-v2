@@ -16,6 +16,9 @@ instance.interceptors.response.use(response => {
     app.$Progress.finish(); // finish when a response is received
     return response
 }, error => {
+    if (error.response.status === 400)
+      store.commit('logout')
+
     app.$Progress.finish()
     return Promise.reject(error)
 });

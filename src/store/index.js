@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router'
 
 Vue.use(Vuex)
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
         state.user = null
         state.jwt = null
         this._vm.$socket.emit('disconnect')
+        router.push('/login')
       },
       socket_connect (state) {
         state.connected = true

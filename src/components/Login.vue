@@ -66,8 +66,7 @@
 
                         if (localStorage.getItem('jwt') != null) {
                             this.$emit('loggedIn')
-                            this.$store.commit('user', response.data.user)
-                            this.$store.commit('jwt', response.data.token)
+                            this.$store.commit('login', response.data)
 
                             if (this.$route.params.nextUrl != null)
                                 this.$router.push(this.$route.params.nextUrl)

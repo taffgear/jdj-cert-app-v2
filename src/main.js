@@ -37,8 +37,8 @@ Vue.use(new VueSocketIO({
     connection: socket,
     vuex: {
         store,
-        actionPrefix: 'SOCKET_',
-        mutationPrefix: 'SOCKET_'
+        actionPrefix: 'socket_',
+        mutationPrefix: 'socket_'
     }
 }), store)
 

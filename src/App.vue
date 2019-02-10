@@ -54,10 +54,7 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.removeItem('user')
-            localStorage.removeItem('jwt')
-            this.$store.commit('user', null)
-            this.$store.commit('jwt', null)
+            this.$store.commit('logout')
             this.$router.push('/login')
         }
     }

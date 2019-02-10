@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    connected: false,
     user: (localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null),
     jwt: localStorage.getItem('jwt') || null,
     logUpdates: {
@@ -29,14 +30,30 @@ export default new Vuex.Store({
       resetEmailItems(state) {
           state.emailItems = []
       },
-      SOCKET_connect (state) {
-        this._vm.$socket.emit('authenticate', { token: this.state.jwt });
+      login(state, data) {
+        state.user  = data.user
+        state.jwt   = data.token
+        this._vm.$socket.connect()
       },
-      SOCKET_log (state) {
+      logout(state) {
+        localStorage.removeItem('user')
+        localStorage.removeItem('jwt')
+        state.user = null
+        state.jwt = null
+        this._vm.$socket.emit('disconnect')
+      },
+      socket_connect (state) {
+        state.connected = true
+        this._vm.$socket.emit('authenticate', { token: this.state.jwt })
+      },
+      socket_disconnect (state) {
+        state.connected = false
+      },
+      socket_log (state) {
           if (state.logUpdates.enabled)
             state.logUpdates.counter++
       },
-      SOCKET_email (state, data) {
+      socket_email (state, data) {
           if (state.emailItems.length)
               state.emailItems = state.emailItems.concat(data)
           else {

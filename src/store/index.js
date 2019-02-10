@@ -5,8 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null,
-    jwt: null,
+    user: (localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null),
+    jwt: localStorage.getItem('jwt') || null,
     logUpdates: {
         enabled: true,
         counter: 0
@@ -28,6 +28,9 @@ export default new Vuex.Store({
       },
       resetEmailItems(state) {
           state.emailItems = []
+      },
+      SOCKET_connect (state) {
+        this._vm.$socket.emit('authenticate', { token: this.state.jwt });
       },
       SOCKET_log (state) {
           if (state.logUpdates.enabled)

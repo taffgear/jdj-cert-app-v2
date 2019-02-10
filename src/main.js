@@ -11,6 +11,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'typeface-roboto/index.css'
 
 import VueSocketIO from 'vue-socket.io'
+import io from 'socket.io-client'
 import moment from 'moment'
 
 import config from '../config'
@@ -23,15 +24,23 @@ Vue.prototype.moment = moment
 Vue.prototype.$api = axios
 Vue.prototype.$config = config
 
+const socket = io(config.webhook_worker.uri, {
+   reconnection: true,
+   autoConnect: !!store.state.jwt,
+   query: {
+     token: store.state.jwt
+   }
+ })
+
 Vue.use(new VueSocketIO({
     debug: false,
-    connection: config.webhook_worker.uri,
+    connection: socket,
     vuex: {
         store,
         actionPrefix: 'SOCKET_',
         mutationPrefix: 'SOCKET_'
     }
-}))
+}), store)
 
 const options = {
   thickness: '3px',

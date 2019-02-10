@@ -57,12 +57,9 @@ export default {
             localStorage.removeItem('user')
             localStorage.removeItem('jwt')
             this.$store.commit('user', null)
+            this.$store.commit('jwt', null)
             this.$router.push('/login')
         }
-    },
-    created () {
-        this.$store.commit('user', JSON.parse(localStorage.getItem('user')))
-        this.$store.commit('jwt',  localStorage.getItem('jwt'))
     }
 }
 </script>

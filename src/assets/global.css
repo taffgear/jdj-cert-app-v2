@@ -26,3 +26,7 @@ h3 {
 .nav-link.active {
     color: #ff6600 !important;
 }
+
+.modal-lg {
+  max-width: 1000px;
+}

@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         addedFile: function(file) {
-            if (file.type.toLowerCase().indexOf('csv') > -1)
+            if (['application/vnd.ms-excel', 'text/csv'].includes(file.type.toLowerCase()))
                 return this.initCSVMapper(file)
 
             this.files.push(file)

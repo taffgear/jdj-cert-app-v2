@@ -52,6 +52,7 @@
        :sort-by.sync="sortBy"
        :sort-desc.sync="sortDesc"
        :sort-direction="sortDirection"
+       @filtered="onFiltered"
        >
        <template slot="LASTSER#3" slot-scope="data">
          {{ moment(data.item['LASTSER#3']).format('DD-MM-YYYY HH:mm:ss') }}

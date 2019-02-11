@@ -56,7 +56,7 @@
                 this.$v.$touch()
 
                 if (!this.$v.$invalid) {
-                    this.$api.post('http://localhost:5000/users/authenticate', {
+                    this.$api.post(this.$config.api.uri + '/users/authenticate', {
                         username    : this.username,
                         password    : this.password
                     })

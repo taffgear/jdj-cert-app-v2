@@ -50,6 +50,7 @@
        :sort-by.sync="sortBy"
        :sort-desc.sync="sortDesc"
        :sort-direction="sortDirection"
+       @filtered="onFiltered"
        >
        <template slot="ts" slot-scope="data">
          {{ moment(data.item.ts, 'x').format('DD-MM-YYYY HH:mm:ss') }}

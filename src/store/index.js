@@ -37,11 +37,12 @@ export default new Vuex.Store({
         this._vm.$socket.connect()
       },
       logout(state) {
+        this._vm.$socket.close()
         localStorage.removeItem('user')
         localStorage.removeItem('jwt')
         state.user = null
         state.jwt = null
-        this._vm.$socket.emit('disconnect')
+        state.logUpdates.counter = 0
         router.push('/login')
       },
       socket_connect (state) {

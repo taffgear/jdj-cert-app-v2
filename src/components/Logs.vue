@@ -5,7 +5,7 @@
 
       <b-row>&nbsp;</b-row>
 
-     <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config">
+     <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
        <template slot="ts" slot-scope="props">
          {{ moment(props.cell_value, 'x').format('DD-MM-YYYY HH:mm:ss') }}
        </template>
@@ -18,6 +18,18 @@
         <template slot="no-sort-icon">
             <font-awesome-icon icon="sort" />
         </template>
+        <template slot="paginataion-previous-button">
+          Vorige
+        </template>
+        <template slot="paginataion-next-button">
+          Volgende
+        </template>
+        <template slot="refresh-button-text">
+          <font-awesome-icon icon="sync-alt" />
+        </template>
+        <template slot="reset-button-text">
+            <font-awesome-icon icon="broom" />
+        </template>
      </vue-bootstrap4-table>
   </b-container>
   </div>
@@ -25,10 +37,9 @@
 
 <script>
 import VueBootstrap4Table from 'vue-bootstrap4-table'
-// import saveState from 'vue-save-state'
+
 export default {
   name: 'StockList',
-  // mixins: [saveState],
   components: {
       VueBootstrap4Table
   },
@@ -51,35 +62,26 @@ export default {
         placeholder: "Zoeken",
         visibility: true,
         case_sensitive: false
-      },
-      show_refresh_button: false
+      }
     },
     loading: true,
     errored: false
   }),
   mounted () {
-    this.$api
-     .get(this.$config.api.uri + this.$props.endpoint)
-     .then(response => {
-       const body = response.data.body;
-       let items = body;
-       for (let i = 0; i < 6; i++) items = items.concat(body);
-       this.rows = items;
-     })
-     .catch(() => {
-       this.errored = true
-     })
-     .finally(() => {
-       this.loading = false
-     })
+    this.loadData();
   },
   methods: {
-    // getSaveStateConfig() {
-    //     return {
-    //         'cacheKey': 'stock-' + this.$props.id,
-    //         'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'sortDesc', 'perPage', 'totalRows'],
-    //     };
-    // },
+    loadData() {
+      this.$api
+       .get(this.$config.api.uri + this.$props.endpoint)
+       .then(response => (this.rows = response.data.body))
+       .catch(() => {
+         this.errored = true
+       })
+       .finally(() => {
+         this.loading = false
+       })
+    }
   },
   created () {
       this.$store.commit('resetLogUpdateCounter')

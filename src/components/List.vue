@@ -3,12 +3,11 @@
     <b-container fluid>
       <h1 class="md-title">{{ title }}</h1>
 
-
       <b-button variant="secondary" class="float-right" v-show="rows.length" v-on:click="download">Exporteer als CSV</b-button>
       <b-row>&nbsp;</b-row>
       <div class="clearfix">&nbsp;</div>
 
-    <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @on-download="onDownload">
+    <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
       <template slot="LASTSER#3" slot-scope="props">
         {{ moment(props.cell_value).format('DD-MM-YYYY HH:mm:ss') }}
       </template>
@@ -21,6 +20,18 @@
        <template slot="no-sort-icon">
            <font-awesome-icon icon="sort" />
        </template>
+       <template slot="paginataion-previous-button">
+         Vorige
+       </template>
+       <template slot="paginataion-next-button">
+         Volgende
+       </template>
+       <template slot="refresh-button-text">
+         <font-awesome-icon icon="sync-alt" />
+       </template>
+       <template slot="reset-button-text">
+           <font-awesome-icon icon="broom" />
+       </template>
     </vue-bootstrap4-table>
   </b-container>
   </div>
@@ -28,12 +39,10 @@
 
 <script>
 import VueBootstrap4Table from 'vue-bootstrap4-table'
-// import saveState from 'vue-save-state'
 import { findKey } from 'lodash'
 import Papa from 'papaparse'
 export default {
   name: 'StockList',
-  // mixins: [saveState],
   components: {
       VueBootstrap4Table
   },
@@ -73,41 +82,32 @@ export default {
         placeholder: "Zoeken",
         visibility: true,
         case_sensitive: false
-      },
-      show_refresh_button: false
+      }
     },
     loading: true,
     errored: false
   }),
   mounted () {
-    this.$api
-     .get(this.$config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''))
-     .then(response => {
-       const body = response.data.body;
-       let items = body;
-       for (let i = 0; i < 20; i++) items = items.concat(body);
-       this.rows = items;
-     } )
-     .catch(() => {
-       this.errored = true
-       this.$notify({
-           group: 'api',
-           title: this.$props.title,
-           text: 'Helaas! Het is niet gelukt om de artikelen op te halen.',
-           type: 'error'
-       });
-     })
-     .finally(() => {
-       this.loading = false
-     })
+    this.loadData();
   },
   methods: {
-    // getSaveStateConfig() {
-    //     return {
-    //         'cacheKey': 'stock-' + this.$props.id,
-    //         'saveProperties': [],
-    //     };
-    // },
+    loadData() {
+      this.$api
+       .get(this.$config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''))
+       .then(response => (this.rows = response.data.body))
+       .catch(() => {
+         this.errored = true
+         this.$notify({
+             group: 'api',
+             title: this.$props.title,
+             text: 'Helaas! Het is niet gelukt om de artikelen op te halen.',
+             type: 'error'
+         });
+       })
+       .finally(() => {
+         this.loading = false
+       })
+    },
     onDownload(payload) {
         console.log(payload);
     },

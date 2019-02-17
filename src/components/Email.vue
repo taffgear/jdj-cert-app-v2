@@ -42,7 +42,8 @@ export default {
           email: {
               recipients    : '',
               subject       : '',
-              body          : ''
+              body          : '',
+              articles      : []
           }
       }
     },
@@ -67,6 +68,7 @@ export default {
 
             if (!this.$v.$invalid) {
                 this.$refs.emailModal.hide()
+                this.email.articles = this.$store.state.emailItems
                 this.$socket.emit('email', this.email)
                 this.$store.commit('resetEmailItems')
             }

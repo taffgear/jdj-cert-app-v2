@@ -5,7 +5,7 @@
 
       <b-row>&nbsp;</b-row>
 
-     <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
+     <vue-bootstrap4-table v-show="rows.length" :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
        <template slot="ts" slot-scope="props">
          {{ moment(props.cell_value, 'x').format('DD-MM-YYYY HH:mm:ss') }}
        </template>
@@ -87,8 +87,8 @@ export default {
       this.$store.commit('resetLogUpdateCounter')
       this.$store.commit('toggleLogUpdates', false)
 
-    this.sockets.subscribe('log', (data) => {
-      this.items.push(data)
+    this.sockets.subscribe('log', data => {
+      this.rows.push(data)
     })
   },
   beforeDestroy() {

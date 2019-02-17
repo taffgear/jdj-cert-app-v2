@@ -7,7 +7,7 @@
       <b-row>&nbsp;</b-row>
       <div class="clearfix">&nbsp;</div>
 
-    <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
+    <vue-bootstrap4-table v-show="rows.length" :rows="rows" :columns="columns" :config="config" @refresh-data="loadData">
       <template slot="LASTSER#3" slot-scope="props">
         {{ moment(props.cell_value).format('DD-MM-YYYY HH:mm:ss') }}
       </template>
@@ -107,9 +107,6 @@ export default {
        .finally(() => {
          this.loading = false
        })
-    },
-    onDownload(payload) {
-        console.log(payload);
     },
     download() {
         const csv = Papa.unparse(this.rows);

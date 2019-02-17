@@ -11,6 +11,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'typeface-roboto/index.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add([faSortUp, faSortDown, faSort])
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import VueSocketIO from 'vue-socket.io'
 import io from 'socket.io-client'

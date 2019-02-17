@@ -9,6 +9,15 @@
        <template slot="ts" slot-scope="props">
          {{ moment(props.cell_value, 'x').format('DD-MM-YYYY HH:mm:ss') }}
        </template>
+       <template slot="sort-asc-icon">
+         <font-awesome-icon icon="sort-up" />
+        </template>
+        <template slot="sort-desc-icon">
+            <font-awesome-icon icon="sort-down" />
+        </template>
+        <template slot="no-sort-icon">
+            <font-awesome-icon icon="sort" />
+        </template>
      </vue-bootstrap4-table>
   </b-container>
   </div>
@@ -16,7 +25,7 @@
 
 <script>
 import VueBootstrap4Table from 'vue-bootstrap4-table'
-import saveState from 'vue-save-state'
+// import saveState from 'vue-save-state'
 export default {
   name: 'StockList',
   // mixins: [saveState],

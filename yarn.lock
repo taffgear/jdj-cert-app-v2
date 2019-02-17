@@ -1751,6 +1751,13 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bootstrap-4@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-4/-/bootstrap-4-4.0.0.tgz#14ec175ff5565d838bc297be8cdede61210c7041"
+  integrity sha1-FOwXX/VWXYOLwpe+jN7eYSEMcEE=
+  dependencies:
+    bootstrap "^4.0.0-alpha.6"
+
 bootstrap-vue@^2.0.0-rc.11:
   version "2.0.0-rc.11"
   resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.0-rc.11.tgz#47aaa6d2a8d390477de75e636d8ea652b1d03f59"
@@ -1762,6 +1769,11 @@ bootstrap-vue@^2.0.0-rc.11:
     opencollective "^1.0.3"
     popper.js "^1.12.9"
     vue-functional-data-merge "^2.0.5"
+
+bootstrap@^4.0.0-alpha.6:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
+  integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
 
 bootstrap@^4.1.1:
   version "4.2.1"
@@ -9499,6 +9511,13 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue-bootstrap4-table@^1.0.27:
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/vue-bootstrap4-table/-/vue-bootstrap4-table-1.0.27.tgz#c6a1caee1af215aabd4e65ac4e37ae97ce5dd7b5"
+  integrity sha512-hTqbEEf1uM9KC30vMVlTpDJTi4q7vRrA0dN+QJKhL0KG16l75ZS8RqsIBQGwOb4reI8r1MZ7iJeO9PhrvSq24g==
+  dependencies:
+    lodash "^4.17.11"
 
 vue-cli-plugin-electron-builder@^1.0.0-rc.11:
   version "1.0.0-rc.11"

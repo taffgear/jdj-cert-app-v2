@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-// import VueRouter from 'vue-router'
+
 import Notifications from 'vue-notification'
 import VueProgressBar from 'vue-progressbar'
 import Vuelidate from 'vuelidate'
@@ -8,6 +8,8 @@ import Vuelidate from 'vuelidate'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import 'typeface-roboto/index.css'
 
 import VueSocketIO from 'vue-socket.io'

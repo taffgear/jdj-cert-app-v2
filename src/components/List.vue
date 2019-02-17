@@ -1,79 +1,33 @@
 <template>
   <div>
     <b-container fluid>
-      <h1 class="md-title">{{ title }} ({{ items.length }})</h1>
+      <h1 class="md-title">{{ title }}</h1>
 
+
+      <b-button variant="secondary" class="float-right" v-show="rows.length" v-on:click="download">Exporteer als CSV</b-button>
       <b-row>&nbsp;</b-row>
+      <div class="clearfix">&nbsp;</div>
 
-      <!-- User Interface controls -->
-     <b-row>
-       <b-col md="3" class="my-1">
-         <b-form-group horizontal label="Filteren" class="mb-0">
-           <b-input-group>
-             <b-form-input v-model="filter" placeholder="Typen om te zoeken" />
-             <b-input-group-append>
-               <b-btn :disabled="!filter" @click="filter = ''">Reset</b-btn>
-             </b-input-group-append>
-           </b-input-group>
-         </b-form-group>
-       </b-col>
-       <b-col md="3" class="my-1">
-         <b-form-group horizontal label="Sorteren" class="mb-0">
-           <b-input-group>
-             <b-form-select v-model="sortBy" :options="sortOptions">
-               <option slot="first" :value="null">-- geen --</option>
-             </b-form-select>
-             <b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">
-               <option :value="false">Oplopend</option>
-               <option :value="true">Aflopend</option>
-             </b-form-select>
-           </b-input-group>
-         </b-form-group>
-       </b-col>
-       <b-col md="4" class="my-1">
-         <b-form-group horizontal label="Per pagina" class="mb-0">
-           <b-form-select :options="pageOptions" v-model="perPage" />
-         </b-form-group>
-       </b-col>
-       <b-col md="2">
-           <b-button variant="primary" v-show="items.length" v-on:click="download">Exporteer als CSV</b-button>
-       </b-col>
-     </b-row>
-
-     <b-row>&nbsp;</b-row>
-
-      <b-table responsive striped hover
-        stacked="md"
-       :items="items"
-       :fields="fields"
-       :current-page="currentPage"
-       :per-page="perPage"
-       :filter="filter"
-       :sort-by.sync="sortBy"
-       :sort-desc.sync="sortDesc"
-       :sort-direction="sortDirection"
-       @filtered="onFiltered"
-       >
-       <template slot="LASTSER#3" slot-scope="data">
-         {{ moment(data.item['LASTSER#3']).format('DD-MM-YYYY HH:mm:ss') }}
-       </template>
-     </b-table>
-     <b-row>
-      <b-col md="6" class="my-1">
-        <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
-      </b-col>
-    </b-row>
+    <vue-bootstrap4-table :rows="rows" :columns="columns" :config="config" @on-download="onDownload">
+      <template slot="LASTSER#3" slot-scope="props">
+        {{ moment(props.cell_value).format('DD-MM-YYYY HH:mm:ss') }}
+      </template>
+    </vue-bootstrap4-table>
   </b-container>
   </div>
 </template>
 
 <script>
+import VueBootstrap4Table from 'vue-bootstrap4-table'
 import saveState from 'vue-save-state'
 import { findKey } from 'lodash'
 import Papa from 'papaparse'
 export default {
   name: 'StockList',
-  mixins: [saveState],
+  // mixins: [saveState],
+  components: {
+      VueBootstrap4Table
+  },
   props: {
     title: String,
     endpoint: String,
@@ -81,33 +35,50 @@ export default {
     id: String
   },
   data: () => ({
-    items: [],
-    fields: [
-      { key: 'PGROUP', label: 'Grp', sortable: true, class: 'text-left' },
-      { key: 'GRPCODE', label: 'Grp code', sortable: true, class: 'text-left' },
-      { key: 'ITEMNO', label: 'SKU', sortable: true, class: 'text-left' },
-      { key: 'DESC#1', label: 'Omschr. 1', sortable: true, class: 'text-left' },
-      { key: 'DESC#2', label: 'Omschr. 2', sortable: true, class: 'text-left' },
-      { key: 'DESC#3', label: 'Omschr. 3', sortable: true, class: 'text-left' },
-      { key: 'LASTSER#3', label: 'Keuring', sortable: true, sortDirection: 'desc', class: 'text-left' },
-      { key: 'PERIOD#1', label: 'Geldig', sortable: true, class: 'text-left' },
-      { key: 'CURRDEPOT', label: 'Mag', sortable: true, class: 'text-left' }
+    rows: [],
+    columns: [
+      { name: 'PGROUP', label: 'Grp', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'GRPCODE', label: 'Grp code', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'ITEMNO', label: 'SKU', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'DESC#1', label: 'Omschr. 1', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'DESC#2', label: 'Omschr. 2', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'DESC#3', label: 'Omschr. 3', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'LASTSER#3', label: 'Keuring', sort: true, initial_sort: true, initial_sort_order: 'desc', slot_name: "LASTSER#3", row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'PERIOD#1', label: 'Geldig', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' },
+      { name: 'CURRDEPOT', label: 'Mag', sort: true, row_text_alignment: 'text-left', column_text_alignment: 'text-left' }
     ],
-    currentPage: 1,
-    perPage: 10,
-    totalRows: 0,
-    pageOptions: [ 10, 15, 25, 50, 100, 200, 500 ],
-    sortBy: null,
-    sortDesc: true,
-    sortDirection: 'desc',
-    filter: null,
+    actions: [
+        {
+            btn_text: "Download",
+            event_name: "on-download",
+            event_payload: {
+                msg: "my custom msg"
+            }
+        }
+    ],
+    config: {
+      card_mode: false,
+      per_page_options: [5, 10, 20, 30, 50, 100, 250, 1000],
+      per_page: 10,
+      global_search: {
+        placeholder: "Zoeken",
+        visibility: true,
+        case_sensitive: false
+      },
+      show_refresh_button: false
+    },
     loading: true,
     errored: false
   }),
   mounted () {
     this.$api
      .get(this.$config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''))
-     .then(response => (this.items = response.data.body))
+     .then(response => {
+       const body = response.data.body;
+       let items = body;
+       for (let i = 0; i < 20; i++) items = items.concat(body);
+       this.rows = items;
+     } )
      .catch(() => {
        this.errored = true
        this.$notify({
@@ -119,31 +90,20 @@ export default {
      })
      .finally(() => {
        this.loading = false
-       this.totalRows = this.items.length
      })
   },
-  computed: {
-    sortOptions () {
-      // Create an options list from our fields
-      return this.fields
-        .filter(f => f.sortable)
-        .map(f => { return { text: f.label, value: f.key } })
-    }
-  },
   methods: {
-    onFiltered (filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length
-      this.currentPage = 1
-    },
-    getSaveStateConfig() {
-        return {
-            'cacheKey': 'stock-' + this.$props.id,
-            'saveProperties': ['currentPage', 'filter', 'sortBy', 'sortDirection', 'sortDesc', 'perPage', 'totalRows'],
-        };
+    // getSaveStateConfig() {
+    //     return {
+    //         'cacheKey': 'stock-' + this.$props.id,
+    //         'saveProperties': [],
+    //     };
+    // },
+    onDownload(payload) {
+        console.log(payload);
     },
     download() {
-        const csv = Papa.unparse(this.items);
+        const csv = Papa.unparse(this.rows);
 
         const csvData = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const csvURL = window.URL.createObjectURL(csvData);
@@ -157,10 +117,10 @@ export default {
   created () {
     this.sockets.subscribe('stockItem', (data) => {
       if (this.$props.id === 'stock-approved') {
-        this.items.push(data)
+        this.rows.push(data)
       } else {
-        const k = findKey(this.items, { ITEMNO: data.ITEMNO })
-        if (k) this.items.splice(k, 1)
+        const k = findKey(this.rows, { ITEMNO: data.ITEMNO })
+        if (k) this.rows.splice(k, 1)
       }
     })
   }

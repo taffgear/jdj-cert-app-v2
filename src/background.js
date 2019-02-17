@@ -15,13 +15,14 @@ let win
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 1500, height: 900 })
+  win = new BrowserWindow({ width: 1200, height: 900, show: false })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
+    // win.webContents.openDevTools()
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
@@ -30,6 +31,11 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+
+  // Show when ready
+  win.once('ready-to-show', () => {
+     win.show()
+ })
 }
 
 // Quit when all windows are closed.
@@ -53,10 +59,11 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    await installVueDevtools()
-  }
+  // await installVueDevtools()
+  // if (isDevelopment && !process.env.IS_TEST) {
+  //   // Install Vue Devtools
+  //   await installVueDevtools()
+  // }
   createWindow()
 })
 

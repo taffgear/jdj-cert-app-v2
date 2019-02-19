@@ -13,9 +13,9 @@ Vue.component('Settings', Settings)
 Vue.component('Uploader', Uploader)
 
 const Home            = { template: '<Logs title="Logs" endpoint="/logs" id="log-list"/>' }
-const StockApproved   = { template: '<List title="Gekeurde artikelen" endpoint="/stock/approved" limit="5000" id="stock-approved"/>' }
-const StockUnapproved = { template: '<List title="Ongekeurde artikelen" endpoint="/stock/unapproved" limit="5000" id="stock-unapproved"/>' }
-const StockExpired    = { template: '<List title="Verlopen artikelen" endpoint="/stock/expired" limit="5000" id="stock-expired"/>' }
+const StockApproved   = { template: '<List title="Gekeurde artikelen" endpoint="/stock/approved" limit="5000" id="stock-approved" type="approved"/>' }
+const StockUnapproved = { template: '<List title="Ongekeurde artikelen" endpoint="/stock/unapproved" limit="5000" id="stock-unapproved" type="unapproved"/>' }
+const StockExpired    = { template: '<List title="Verlopen artikelen" endpoint="/stock/expired" limit="5000" id="stock-expired" type="expired"/>' }
 const Certificaten    = { template: '<Uploader title="Certificaten uploaden"/>' }
 
 Vue.use(Router)

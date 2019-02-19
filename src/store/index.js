@@ -13,14 +13,20 @@ export default new Vuex.Store({
         enabled: true,
         counter: 0
     },
+    stock: {
+      approved  : [],
+      unapproved: [],
+      expired   : []
+    },
+    logs: [],
     emailItems: []
   },
   mutations: {
-      user (state, user) {
-          state.user = user
+      updateStock (state, data) {
+        state.stock[data.type] = data.rows
       },
-      jwt (state, jwt) {
-          state.jwt = jwt
+      updateLogs (state, data) {
+        state.logs = data
       },
       toggleLogUpdates (state, enabled) {
           state.logUpdates.enabled = enabled

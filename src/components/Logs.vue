@@ -68,13 +68,16 @@ export default {
     errored: false
   }),
   mounted () {
-    this.loadData();
+    this.rows = this.$store.state.logs
   },
   methods: {
     loadData() {
       this.$api
        .get(this.$config.api.uri + this.$props.endpoint)
-       .then(response => (this.rows = response.data.body))
+       .then(response => {
+         this.rows = response.data.body
+         this.$store.commit('updateLogs', this.rows)
+       })
        .catch(() => {
          this.errored = true
        })
@@ -84,6 +87,7 @@ export default {
     }
   },
   created () {
+      if (!this.$store.state.logs.length) this.loadData()
       this.$store.commit('resetLogUpdateCounter')
       this.$store.commit('toggleLogUpdates', false)
 

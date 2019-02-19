@@ -48,6 +48,7 @@ export default {
   },
   props: {
     title: String,
+    type: String,
     endpoint: String,
     limit: String,
     id: String
@@ -88,13 +89,16 @@ export default {
     errored: false
   }),
   mounted () {
-    this.loadData();
+    this.rows = this.$store.state.stock[this.$props.type]
   },
   methods: {
     loadData() {
       this.$api
        .get(this.$config.api.uri + this.$props.endpoint + (this.$props.limit ? '/' + this.$props.limit : ''))
-       .then(response => (this.rows = response.data.body))
+       .then(response => {
+         this.rows = response.data.body
+         this.$store.commit('updateStock', { rows: this.rows, type: this.$props.type })
+       })
        .catch(() => {
          this.errored = true
          this.$notify({
@@ -121,6 +125,8 @@ export default {
     }
   },
   created () {
+    if (!this.$store.state.stock[this.$props.type].length) this.loadData()
+
     this.sockets.subscribe('stockItem', (data) => {
       if (this.$props.id === 'stock-approved') {
         this.rows.push(data)

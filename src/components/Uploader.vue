@@ -61,87 +61,87 @@ export default {
     return {
       csv: {
         fields: [
-          { label: "Test datum", name: "testDate", value: "", columnIndex: 0 },
-          { label: "Test tijd", name: "testTime", value: "", columnIndex: 1 },
+          { label: "Test datum", name: "testDate", value: "", columnIndex: 28 },
+          { label: "Test tijd", name: "testTime", value: "", columnIndex: 29 },
           {
             label: "Getest bij",
             name: "testedWith",
             value: "",
-            columnIndex: 2
+            columnIndex: 105
           },
           {
             label: "Klant naam",
             name: "customerName",
             value: "",
-            columnIndex: 3
+            columnIndex: 2
           },
           {
             label: "Klant adres 1",
             name: "customerAddress1",
             value: "",
-            columnIndex: 4
+            columnIndex: 3
           },
           {
             label: "Klant adres 2",
             name: "customerAddress2",
             value: "",
-            columnIndex: 5
+            columnIndex: 4
           },
           {
             label: "Klant adres 3",
             name: "customerAddress3",
             value: "",
-            columnIndex: 6
+            columnIndex: 5
           },
           {
             label: "Klant adres 4",
             name: "customerAddress4",
             value: "",
-            columnIndex: 7
+            columnIndex: 6
           },
           {
             label: "Klant postcode",
             name: "customerPostcode",
             value: "",
-            columnIndex: 8
+            columnIndex: 7
           },
-          { label: "PAT Model", name: "PATModel", value: "", columnIndex: 9 },
+          { label: "PAT Model", name: "PATModel", value: "", columnIndex: 0 },
           {
             label: "PAT Serienummer",
             name: "PATSerialnumber",
             value: "",
-            columnIndex: 10
+            columnIndex: 1
           },
           {
             label: "Artikel nummer",
             name: "articleNumber",
             value: "",
-            columnIndex: 11
+            columnIndex: 19
           },
           {
             label: "Artikel Serienummer",
             name: "articleSerialnumber",
             value: "",
-            columnIndex: 12
+            columnIndex: 20
           },
           {
             label: "Artikel omschrijving",
             name: "articleDescription",
             value: "",
-            columnIndex: 13
+            columnIndex: 21
           },
           {
             label: "Complete test status",
             name: "testStatus",
             value: "",
-            columnIndex: 14
+            columnIndex: 106
           },
           { label: "Testgroep", name: "testGroup", value: "", columnIndex: 15 },
           {
             label: "Testgroep spanning",
             name: "testGroupVoltage",
             value: "",
-            columnIndex: 16
+            columnIndex: 14
           },
           {
             label: "Testgroep omschrijving",
@@ -153,16 +153,16 @@ export default {
             label: "Testgroep status",
             name: "testGroupStatus",
             value: "",
-            columnIndex: 18
+            columnIndex: 16
           },
-          { label: "Test #1", name: "test1", value: "", columnIndex: 19 },
-          { label: "Test #2", name: "test2", value: "", columnIndex: 20 },
-          { label: "Test #3", name: "test3", value: "", columnIndex: 21 },
-          { label: "Test #4", name: "test4", value: "", columnIndex: 22 },
-          { label: "Test #5", name: "test5", value: "", columnIndex: 23 },
-          { label: "Test #6", name: "test6", value: "", columnIndex: 24 },
-          { label: "Test #7", name: "test7", value: "", columnIndex: 25 },
-          { label: "Test #8", name: "test8", value: "", columnIndex: 26 }
+          { label: "Test #1", name: "test1", value: "", columnIndex: 62 },
+          { label: "Test #2", name: "test2", value: "", columnIndex: 72 },
+          { label: "Test #3", name: "test3", value: "", columnIndex: 84 },
+          { label: "Test #4", name: "test4", value: "", columnIndex: 85 },
+          { label: "Test #5", name: "test5", value: "", columnIndex: 87 },
+          { label: "Test #6", name: "test6", value: "", columnIndex: 89 },
+          { label: "Test #7", name: "test7", value: "", columnIndex: 101 },
+          { label: "Test #8", name: "test8", value: "", columnIndex: 102 }
         ],
         selected: {},
         fileName: "",
